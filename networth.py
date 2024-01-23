@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 def create_layout(asset_list):
     layout = [
         [sg.Text('Net Worth Tracker')],
-        [sg.Listbox(values=[f'{asset}: ${price:.2f}' for asset, price in asset_list.items()],
+        [sg.Combo(values=[f'{asset}: ${price:.2f}' for asset, price in asset_list.items()],
                     size=(60, 6), key='asset_list')],
         [sg.InputText(key='new_asset', size=(20, 1)), sg.InputText(key='asset_price', size=(10, 1)),
          sg.Button('Add Asset')],
