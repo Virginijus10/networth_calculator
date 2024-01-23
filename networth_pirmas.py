@@ -19,22 +19,20 @@ def update_net_worth(window, asset_list):
     net_worth = sum(asset_list.values())
     window['net_worth'].update(f'{net_worth:.2f}')
 
-def update_net_worth_target(window, new_target:float):
+def update_net_worth_target(window, new_target: float):
     window['net_worth_target'].update(f'{new_target:.2f}')
 
-def calculate_progress(window, asset_list):
+def calculate_progress(window, asset_list, values):
     net_worth = sum(asset_list.values())
-    net_worth_target_str = window['net_worth_target'].get()
+    new_target_input = values['new_target']
 
-    # Check if the string is not empty and contains a valid integer value
-    if net_worth_target_str and net_worth_target_str.isdigit():
-        net_worth_target = int(net_worth_target_str)
+    try:
+        net_worth_target = float(new_target_input)
         progress = (net_worth / net_worth_target) * 100
         return progress
-    else:
+    except ValueError:
         sg.popup_error('Please enter a valid target.')
         return None  # Return an indicator that the progress couldn't be calculated
-
 
 def main():
     sg.theme('LightGrey1')
@@ -51,27 +49,33 @@ def main():
         elif event == 'Add Asset':
             new_asset_name = values['new_asset']
             new_asset_price = values['asset_price']
-            if new_asset_name and new_asset_price and new_asset_price.isdigit():
-                asset_list[new_asset_name] = float(new_asset_price)
-                window['asset_list'].update(values=[f'{asset}: ${price:.2f}' for asset, price in asset_list.items()])
-                window['new_asset'].update('')
-                window['asset_price'].update('')
-                update_net_worth(window, asset_list)
+            if new_asset_name and new_asset_price:
+                try:
+                    asset_price = float(new_asset_price)
+                    asset_list[new_asset_name] = asset_price
+                    window['asset_list'].update(values=[f'{asset}: ${price:.2f}' for asset, price in asset_list.items()])
+                    window['new_asset'].update('')
+                    window['asset_price'].update('')
+                    update_net_worth(window, asset_list)
+                except ValueError:
+                    sg.popup_error('Please enter a valid asset price.')
             else:
                 sg.popup_error('Please enter a valid asset name and price.')
         elif event == "Add Target":
-            new_target_input = window['new_target']
-            new_target_value = new_target_input.get()  # Extract numeric value
-            if new_target_value and new_target_value.isdigit():
-                update_net_worth_target(window, float(new_target_value))
-                window['new_target'].update('')
-            else:
-                sg.popup_error('Please enter a valid target value.')
-        elif event == 'Calculate progress':
-            new_target_input = window['new_target'].get()
+            new_target_input = values['new_target']
             if new_target_input:
-                progress_bar = window['progress_bar']
-                progress_bar.update(calculate_progress(window, asset_list))
+                try:
+                    new_target_value = float(new_target_input)
+                    update_net_worth_target(window, new_target_value)
+                except ValueError:
+                    sg.popup_error('Please enter a valid target value.')
+            else:
+                sg.popup_error('Please enter a target.')
+        elif event == 'Calculate progress':
+            progress_bar = window['progress_bar']
+            progress = calculate_progress(window, asset_list, values)
+            if progress is not None:
+                progress_bar.update(progress)
             else:
                 sg.popup_error('Please enter a target.')
 
