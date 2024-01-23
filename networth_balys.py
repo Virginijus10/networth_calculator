@@ -10,7 +10,7 @@ class Investment(Asset):  # Inherit from Asset
         super().__init__(name, price)  # Call the constructor of the base class
         self.roi = roi
 
-def create_layout(assets):
+def create_layout():
     layout = [
         [sg.Column([
             [sg.Text('Combined list:', size=30)],
@@ -53,7 +53,7 @@ def main():
     sg.theme('LightGrey1')
     assets = []  # Use a single list for both assets and investments
 
-    layout = create_layout(assets)
+    layout = create_layout()
     window = sg.Window('Net Worth Tracker', layout, resizable=True)
 
     while True:
