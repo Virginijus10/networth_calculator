@@ -5,11 +5,12 @@ def create_layout(asset_list):
         [sg.Text('Net Worth Tracker')],
         [sg.Listbox(values=[f'{asset}: ${price:.2f}' for asset, price in asset_list.items()],
                     size=(60, 6), key='asset_list')],
+        [sg.Text('Input new asset name and asset value')],
         [sg.InputText(key='new_asset', size=(20, 1)), sg.InputText(key='asset_price', size=(10, 1)),
          sg.Button('Add Asset')],
-        [sg.InputText(key='new_target', size=(20, 1)), sg.Button('Add Target')],
+        [sg.Text('Enter new target')],
+        [sg.InputText(key='new_target', size=(20, 1))],
         [sg.Text('Total Net Worth: $', size=(15, 1)), sg.Text('', size=(15, 1), key='net_worth')],
-        [sg.Text("Networth Target: $", size=(15, 1)), sg.Text("", size=(15, 1), key="net_worth_target")],
         [sg.ProgressBar(max_value=100, orientation='horizontal', size=(40, 10), style='xpnative', key='progress_bar')],
         [sg.Button('Calculate progress'), sg.Button('Exit', button_color=('white', 'red'))]
     ]
