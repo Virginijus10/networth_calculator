@@ -12,19 +12,21 @@ class Investment(Asset):  # Inherit from Asset
 
 def create_layout(assets):
     layout = [
-        [sg.Text('Combined list:', size=30)],
-        [sg.Listbox(values=[], size=(30, 6), key='asset_list')],
-        [sg.Text('Input new asset name, asset value, and ROI')],
-        [sg.InputText(key='new_asset', size=(20, 1)), sg.InputText(key='asset_price', size=(10, 1)), sg.Button('Add Asset')],
-        [sg.Text('Input new investment name, investment value, and ROI')],
-        [sg.InputText(key='new_investment', size=(20, 1)), sg.InputText(key='investment_price', size=(10, 1)),
-         sg.InputText(key='investment_roi', size=(10, 1)), sg.Button('Add Investment')],
-        [sg.Text('Enter new target')],
-        [sg.InputText(key='new_target', size=(20, 1))],
-        [sg.Text('Total Net Worth: $', size=(15, 1)), sg.Text('', size=(15, 1), key='net_worth')],
-        [sg.ProgressBar(max_value=100, orientation='horizontal', size=(40, 10), style='xpnative', key='progress_bar')],
-        [sg.Text("Estimated Passive Income Next Month:"), sg.Text('$0', size=(20, 1), key='passive_income')],
-        [sg.Button('Calculate progress'), sg.Button('Exit', button_color=('white', 'red'))]
+        [sg.Column([
+            [sg.Text('Combined list:', size=30)],
+            [sg.Listbox(values=[], size=(30, 6), key='asset_list')],
+            [sg.Text('Input new asset name and asset value')],
+            [sg.InputText(key='new_asset', size=(20, 1)), sg.InputText(key='asset_price', size=(10, 1)), sg.Button('Add Asset')],
+            [sg.Text('Input new investment name, investment value, and ROI')],
+            [sg.InputText(key='new_investment', size=(20, 1)), sg.InputText(key='investment_price', size=(10, 1)),
+             sg.InputText(key='investment_roi', size=(10, 1)), sg.Button('Add Investment')],
+            [sg.Text('Enter new target')],
+            [sg.InputText(key='new_target', size=(20, 1))],
+            [sg.Text('Total Net Worth: $', size=(15, 1)), sg.Text('', size=(15, 1), key='net_worth')],
+            [sg.ProgressBar(max_value=100, orientation='horizontal', size=(40, 10), style='xpnative', key='progress_bar')],
+            [sg.Text("Estimated Passive Income Next Month:"), sg.Text('$0', size=(20, 1), key='passive_income')],
+            [sg.Button('Calculate progress'), sg.Button('Exit', button_color=('white', 'red'))]
+        ], pad=(0, 0), background_color='lightblue')]
     ]
     return layout
 
